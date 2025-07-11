@@ -40,7 +40,7 @@ moduleA1 = importpy('../../packageA/moduleA2.py')
 ```
 ```
 moduleC2.py of packageC
-member1, member2, member3 = importpy('../../packageA/moduleA2.py', 'member1', 'member2', 'member3')
+member1, member2, classC = importpy('../../packageA/moduleA2.py', 'member1', 'member2', 'classC')
 ```
 Additionally, modules imported in this way can be executed independently regardless of the package structure. That's it....  
 
