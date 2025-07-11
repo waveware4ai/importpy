@@ -50,25 +50,20 @@ I came up with this approach because I usually put unit tests in '\_\_main\_\_' 
 Additionally, modules imported in this way can be executed independently regardless of the package structure. That's it....  
 
 # History
-------------
 2025/07/11 v0.1.0 : initial released  
 
 # Installation (pip install)
-------------
 ```python
 python -m pip install importpy
 or
 python -m pip install git+https://github.com/waveware4ai/importpy
 ```
 # Requirements
-------------
 ```python
 Python 3.8+
 No external dependencies
 ```
-
 # Features
-------------
 * Basic Features
     + importing modules using relative paths  
     + importing modules using absolute paths  
@@ -81,13 +76,10 @@ No external dependencies
     + module name is derived from the file path (e.g. utils/web.py → utils.web)  
     + result is cached in-memory  
 # Testing
-------------
 ```
 python -m pytest -v ./importpy/test
 ```
-
 # Examples
-------------
 ```python
 import importpy
 aaaa = importpy('aaaa.py') 
