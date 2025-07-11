@@ -102,7 +102,7 @@ if sys.version_info < (3,8): raise Exception(f"[ERR] importpy requires Python 3.
 __version__ = '0.1.1'
 
 import logging
-logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] %(message)s') # logging.INFO, logging.DEBUG
+logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s') # logging.INFO, logging.DEBUG
 LOG = logging.getLogger(__name__)
 
 import types, typing, inspect, importlib.util as imp_util                  
