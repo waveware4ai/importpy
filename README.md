@@ -34,6 +34,7 @@ moduleA1.py of packageA
 moduleB1 = importpy('../packageB/moduleB1.py')
 ```
 likewise, can import moduleA2 of packageA from moduleC2 of packageC as follows.  
+Of course, absolute paths are also possible.  
 ```
 moduleC2.py of packageC
 moduleA1 = importpy('../../packageA/moduleA2.py')
