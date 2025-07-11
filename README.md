@@ -1,9 +1,5 @@
 # importpy
-
-This small python-utility is used to import at module level instead of package level. 
-It can also replace the standard import mechanism. (I'm not saying to replace everything, but to use it only when necessary :D)  
-Additionally, it has the ability to solve the relative import problem that occurs 
-when executing unit modules located in each subdirectory without sys.path.
+Dynamic, lazy-style module importer for Python. It lets you import individual .py files directly at the module level, while still replicating standard package semantics (including automatic \_\_init\_\_.py execution) and resolving relative-import issues in nested directories—no changes to sys.path required. Use it to override Python’s built-in import mechanism only when you need that extra flexibility.
   
 ```
 root package
