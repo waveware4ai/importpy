@@ -39,6 +39,8 @@ Of course, absolute paths are also possible.
 ```
 moduleC2.py of packageC
 moduleA1 = importpy('../../packageA/moduleA2.py')
+or
+moduleA1 = importpy('c:/program files/python/project/test/package_root/packageA/moduleA2.py')
 ```
 ```
 moduleC2.py of packageC
