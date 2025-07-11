@@ -44,7 +44,7 @@ moduleA1 = importpy('../../packageA/moduleA2.py')
 moduleC2.py of packageC
 member1, member2, classC = importpy('../../packageA/moduleA2.py', 'member1', 'member2', 'classC')
 ```
-I came up with this approach because I usually put unit tests in '__main__' of each module.
+I came up with this approach because I usually put unit tests in ''__main__'' of each module.  
 Additionally, modules imported in this way can be executed independently regardless of the package structure. That's it....  
 
 # History
