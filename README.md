@@ -12,16 +12,32 @@ root package
         |------- packageA/
         |           |
         |           |----- __init__.py
-        |           |----- module1.py
-        |           |----- module2.py
+        |           |----- moduleA1.py
+        |           |----- moduleA2.py
         |
         |------- packageB/
         |           |
+        |           |------- packageC/
+        |           |           |
+        |           |           |----- __init__.py
+        |           |           |----- moduleC1.py
+        |           |           |----- moduleC2.py
+        |           |
         |           |----- __init__.py
-        |           |----- module3.py
-        |           |----- module4.py
+        |           |----- moduleB1.py
+        |           |----- moduleB2.py
 ```
-
+Now you can import regardless of path.  
+For example, you can import moduleB1 of packageB from moduleA1 of packageA as follows.  
+```
+moduleA1.py of packageA
+moduleB1 = importpy('../packageB/moduleB1.py')
+```
+Also, can import moduleA2 of packageA from moduleC2 of packageC as follows.  
+```
+moduleC2.py of packageC
+moduleA1 = importpy('../../packageA/moduleA2.py')
+```
 
 # History
 ------------
