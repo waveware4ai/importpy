@@ -37,4 +37,16 @@ a_member_of_x, b_member_of_x = importpy('./pathto/x.py', 'a_member_of_x', 'b_mem
 x, a_member_of_x, b_member_of_x = importpy('./pathto/x.py', '*', 'a_member_of_x', 'b_member_of_x') 
 ClassA, ClassB = importpy('./pathto/impl.py', 'ClassA', 'ClassB)
 ```
-
+The following perform the same role:  
+```python
+import aaaa
+aaaa = importpy('aaaa.py')
+```
+```python
+from x import a_member_of_x, b_member_of_x
+a_member_of_x, b_member_of_x = importpy('x.py', 'a_member_of_x', 'b_member_of_x') 
+```
+```python
+from impl import ClassA, ClassB
+ClassA, ClassB = importpy('impl.py', 'ClassA', 'ClassB)
+```
