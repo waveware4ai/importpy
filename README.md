@@ -57,15 +57,23 @@ Additionally, modules imported in this way can be executed independently regardl
 ------------
 ```python
 python -m pip install importpy
+or
+python -m pip install git+https://github.com/waveware4ai/importpy
 ```
 
 # Features
 ```
-. importing modules using relative paths  
-. importing modules using absolute paths  
-. importing member functions from modules  
-. support lazy-import avoid circular importing  
-. support to import functions from module, like from x import y ...  
+* Basic Features
+  + importing modules using relative paths  
+  + importing modules using absolute paths  
+  + importing member functions from modules  
+  + support lazy-import avoid circular importing  
+  + support to import functions from module, like from x import y ...
+* Import Logic  
+  + caller location is traced via inspect  
+  + relative path is resolved automatically  
+  + module name is derived from the file path (e.g. utils/web.py → utils.web)  
+  + result is cached in-memory  
 ```
 
 # Examples
