@@ -96,7 +96,7 @@ from impl import ClassA, ClassB
 ClassA, ClassB = importpy('impl.py', 'ClassA', 'ClassB')
 ```
 """
-import os, sys
+import os, sys, pathlib
 if sys.version_info < (3,8): raise Exception(f"[ERR] importpy requires Python 3.8 or greater ...")
 
 __version__ = '0.1.1'
@@ -129,9 +129,10 @@ def imports(file: str, *args, use_lazy: bool = True) -> typing.Union[types.Modul
         if not verify(modl, args): raise AttributeError(f"[ERR] cannot find attribute {args} in [{modl.__name__}] ...")
         _a = tuple(getattr(modl, n) if has else modl for n in args if (has := hasattr(modl, n)) or n == '*') # walrus op with above p3.8
         return _a if 1 < len(_a) else _a[0]
-
+    
+    file = file if not isinstance(file, pathlib.Path) else file.as_posix() 
     if not file.endswith('.py'): raise ValueError(f"[ERR] import path must end with .py [maybe {file}.py?] ...")
-    stck = [s for s in stacks(inspect.currentframe())] # .py caller ie, c+0 is me, c+1 is loader, c+2 is caller !, inspect.stack()???
+    stck = [s for s in stacks(inspect.currentframe())] # .py caller ie, c+0 is me, c+1 is loader, c+2 is caller !, use inspect.stack()???
     stid = next((i+2 for i, p in enumerate(stck) if __file__ == p.f_code.co_filename), None) 
     cpth = stck[stid].f_code.co_filename.replace('\\', '/') # caller path
     cpkg = stck[stid].f_globals.get("__package__") or ''    # caller package name

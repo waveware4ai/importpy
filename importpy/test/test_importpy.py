@@ -34,7 +34,7 @@ moduleA = importpy('moduleA.py')
 def hello():
     return 'world'
 
-def hello_forwarding():
+def hello_forwarding(): 
     return moduleA.hello()
 
 class ClassB:
@@ -165,9 +165,9 @@ def test_import_attr_missing(moduleA, moduleB):
 
 # test for invalid argument types
 def test_import_args_invalid(moduleA, moduleB):
-    with pytest.raises(ImportError):
+    with pytest.raises(AttributeError):
         importpy(moduleA, 123)
-    with pytest.raises(ImportError):
+    with pytest.raises(AttributeError):
         importpy(moduleB, sys)
 
 # test importing absolute path loading

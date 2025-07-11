@@ -1,0 +1,45 @@
+# pyproject.toml
+
+[build-system]
+requires = [
+  "setuptools>=61.0",   # support PEP 621
+  "wheel"               # support wheel
+]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "importpy"
+version = "0.1.1"
+description = """
+Dynamic, lazy-style module importer for Python. 
+Import individual .py files at module level, replicate standard package import semantics
+(including automatic __init__.py execution), and resolve relative-import issues
+in nested directories without touching sys.path.
+"""
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "14mhz", email = "14mhz@hanmail.net" }
+]
+keywords = ["import", "package", "dynamic", "lazy", "module"]
+
+classifiers = [
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3 :: Only",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Home = "https://github.com/waveware4ai/importpy"
+Source = "https://github.com/waveware4ai/importpy"
+
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=6.0", 
+  "pytest-cov",
+  "flake8",
+]
