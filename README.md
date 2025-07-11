@@ -51,6 +51,7 @@ Additionally, modules imported in this way can be executed independently regardl
 
 # History
 2025/07/11 v0.1.0 : initial released  
+2025/07/11 v0.1.1 : some minor bug fix, support pytest  
 
 # Installation (pip install)
 ```python
