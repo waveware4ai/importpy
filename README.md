@@ -88,7 +88,7 @@ lazy_on = importpy('lazy_on.py', use_lazy = True) # default action
 lazyoff = importpy('lazyoff.py', use_lazy = False) 
 a_member_of_x, b_member_of_x = importpy('./pathto/x.py', 'a_member_of_x', 'b_member_of_x') 
 x, a_member_of_x, b_member_of_x = importpy('./pathto/x.py', '*', 'a_member_of_x', 'b_member_of_x') 
-ClassA, ClassB = importpy('./pathto/impl.py', 'ClassA', 'ClassB)
+ClassA, ClassB = importpy('./pathto/impl.py', 'ClassA', 'ClassB')
 ```
 The following perform the same role:  
 ```python
