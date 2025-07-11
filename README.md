@@ -33,11 +33,13 @@ For example, you can import moduleB1 of packageB from moduleA1 of packageA as fo
 moduleA1.py of packageA
 moduleB1 = importpy('../packageB/moduleB1.py')
 ```
-Also, can import moduleA2 of packageA from moduleC2 of packageC as follows.  
+likewise, can import moduleA2 of packageA from moduleC2 of packageC as follows.  
 ```
 moduleC2.py of packageC
 moduleA1 = importpy('../../packageA/moduleA2.py')
 ```
+Additionally, modules imported in this way can be executed independently regardless of the package structure. That's it....  
+
 
 # History
 ------------
