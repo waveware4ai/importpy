@@ -45,20 +45,80 @@ class ClassB:
     path.write_text(code)
     return str(path)
 
+@pytest.fixture
+def cyclicA(tmp_path):
+    code = '''
+import importpy
+cyclicB = importpy('cyclicB.py', use_lazy=False)
+
+def hello():
+    return 'world'
+
+'''
+    path = tmp_path / "cyclicA.py"
+    path.write_text(code)
+    return str(path)
+
+@pytest.fixture
+def cyclicB(tmp_path):
+    code = '''
+import importpy
+cyclicA = importpy('cyclicA.py')
+cyclicA.hello()
+
+def hello():
+    return 'world'
+
+'''
+    path = tmp_path / "cyclicB.py"
+    path.write_text(code)
+    return str(path)
+
+@pytest.fixture
+def cyclicC(tmp_path):
+    code = '''
+import importpy
+cyclicD = importpy('cyclicD.py', use_lazy=True)
+
+def hello():
+    return 'world'
+
+'''
+    path = tmp_path / "cyclicC.py"
+    path.write_text(code)
+    return str(path)
+
+@pytest.fixture
+def cyclicD(tmp_path):
+    code = '''
+import importpy
+cyclicC = importpy('cyclicC.py')
+cyclicC.hello()
+
+def hello():
+    return 'world'
+
+'''
+    path = tmp_path / "cyclicD.py"
+    path.write_text(code)
+    return str(path)
+
+########################################
+
 # test loading entire module
 def test_import_module(moduleA, moduleB):
-    moduleA = importpy(moduleA)
-    moduleB = importpy(moduleB)
+    a = importpy(moduleA)
+    b = importpy(moduleB)
 
-    assert hasattr(moduleA, 'hello')
-    assert callable(moduleA.hello)
-    assert moduleA.hello() == 'world'
-    assert moduleA.hello_forwarding() == 'world'
+    assert hasattr(a, 'hello')
+    assert callable(a.hello)
+    assert a.hello() == 'world'
+    assert a.hello_forwarding() == 'world'
 
-    assert hasattr(moduleB, 'hello')
-    assert callable(moduleB.hello)
-    assert moduleB.hello() == 'world'
-    assert moduleB.hello_forwarding() == 'world'
+    assert hasattr(b, 'hello')
+    assert callable(b.hello)
+    assert b.hello() == 'world'
+    assert b.hello_forwarding() == 'world'
 
 # test importing a single attribute
 def test_import_attr_single(moduleA, moduleB):
@@ -82,19 +142,19 @@ def test_import_attr_multiple(moduleA, moduleB):
 
 # test importing star attributes
 def test_import_star_attribute(moduleA, moduleB):
-    moduleA = importpy(moduleA, "*")
-    assert isinstance(moduleA, types.ModuleType)
-    moduleB = importpy(moduleB, "*")
-    assert isinstance(moduleB, types.ModuleType)
+    a = importpy(moduleA, "*")
+    assert isinstance(a, types.ModuleType)
+    b = importpy(moduleB, "*")
+    assert isinstance(b, types.ModuleType)
 
 # test importing star attributes
 def test_import_star_includes_expected_attributes(moduleA, moduleB):
-    moduleA = importpy(moduleA, '*')
-    assert hasattr(moduleA, 'hello')
-    assert hasattr(moduleA, 'ClassA')
-    moduleB = importpy(moduleB, '*')
-    assert hasattr(moduleB, 'hello')
-    assert hasattr(moduleB, 'ClassB')
+    a = importpy(moduleA, '*')
+    assert hasattr(a, 'hello')
+    assert hasattr(a, 'ClassA')
+    b = importpy(moduleB, '*')
+    assert hasattr(b, 'hello')
+    assert hasattr(b, 'ClassB')
 
 # test for missing attribute error
 def test_import_attr_missing(moduleA, moduleB):
@@ -120,7 +180,7 @@ def test_import_absolute_path_loading(tmp_path):
     assert result() == 'pong'
 
 # test for invalid file path
-def test_invalid_file_path():
+def test_import_invalid_file_path():
     with pytest.raises(FileNotFoundError):
         importpy("non_existent_module.py")
 
@@ -133,7 +193,18 @@ def test_import_caching_behavior(moduleA, moduleB):
     assert a1 == a2 
     assert b1 != b2 
 
+# test importing lazy loader functionality
 def test_import_lazy_loader_flag(moduleA, moduleB):
     lazy_mode = importpy(moduleA, use_lazy=True)
     eagermode = importpy(moduleA, use_lazy=False)
     assert hasattr(lazy_mode, 'hello') and hasattr(eagermode, 'hello') 
+
+# test occur circular importing
+def test_import_occur_cyclic_importing(cyclicA, cyclicB):
+    with pytest.raises(ImportError):
+        importpy(cyclicA, use_lazy=False)
+
+# test avoid circular importing
+def test_import_avoid_cyclic_importing(cyclicC, cyclicD):
+    c = importpy(cyclicC, use_lazy=False)
+    assert hasattr(c, 'hello')

@@ -102,10 +102,10 @@ if sys.version_info < (3,8): raise Exception(f"[ERR] importpy requires Python 3.
 __version__ = '0.1.1'
 
 import logging
-logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s') # logging.INFO, logging.DEBUG
+logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] %(message)s') # logging.INFO, logging.DEBUG
 LOG = logging.getLogger(__name__)
 
-import types, typing, inspect, importlib.util                   
+import types, typing, inspect, importlib.util as imp_util                  
 from os.path import abspath as absopath, normpath, join as joinpath, dirname as superdir, exists as hasfile
 def loader(file: str, *args, use_lazy: bool = True) -> typing.Union[types.ModuleType, typing.Any] : return imports(file, *args, use_lazy=use_lazy)
 sys.modules[__name__] = loader
@@ -114,22 +114,23 @@ module_bank = {}
 def imports(file: str, *args, use_lazy: bool = True) -> typing.Union[types.ModuleType, typing.Any] : # @14mhz, lazy-style custrom importer
     def stacks(frame) -> list : # with stacks(inspect.currentframe())
         return [] if not frame else [frame] + stacks(frame.f_back)
-    def module(pack: str, path: str) -> types.ModuleType :
-        spec = importlib.util.spec_from_file_location(pack, path)
+    def module(pack: str, path: str, iseager: bool = False) -> types.ModuleType :
+        spec = imp_util.spec_from_file_location(pack, path, submodule_search_locations = None if not iseager else [superdir(path)] )
         if spec.loader is None: raise ImportError(f"[ERR] cannot find loader [{path}]")
-        modl = importlib.util.module_from_spec(spec)
-        load = spec.loader if not use_lazy else importlib.util.LazyLoader(spec.loader) 
+        modl = imp_util.module_from_spec(spec)
+        load = spec.loader if iseager or not use_lazy else imp_util.LazyLoader(spec.loader) 
         try: load.exec_module(modl) 
         except Exception as e: raise ImportError(f"[ERR] execution error loader [{path}] {e}")
         return modl
     def verify(modl: types.ModuleType, args) -> bool :
-        if any(not isinstance(n, str) for n in args): raise ImportError(f"[ERR] args must be str type {args} in [{modl.__name__}] ...")
+        if any(not isinstance(n, str) for n in args): raise AttributeError(f"[ERR] args must be str type {args} in [{modl.__name__}] ...")
         return all(hasattr(modl, n) or n == '*' for n in args)
     def attrib(modl: types.ModuleType, args) -> typing.Tuple :
         if not verify(modl, args): raise AttributeError(f"[ERR] cannot find attribute {args} in [{modl.__name__}] ...")
         _a = tuple(getattr(modl, n) if has else modl for n in args if (has := hasattr(modl, n)) or n == '*') # walrus op with above p3.8
         return _a if 1 < len(_a) else _a[0]
 
+    if not file.endswith('.py'): raise ValueError(f"[ERR] import path must end with .py [maybe {file}.py?] ...")
     stck = [s for s in stacks(inspect.currentframe())] # .py caller ie, c+0 is me, c+1 is loader, c+2 is caller !, inspect.stack()???
     stid = next((i+2 for i, p in enumerate(stck) if __file__ == p.f_code.co_filename), None) 
     cpth = stck[stid].f_code.co_filename.replace('\\', '/') # caller path
@@ -137,7 +138,6 @@ def imports(file: str, *args, use_lazy: bool = True) -> typing.Union[types.Modul
     if not cpth: raise RuntimeError(f"[ERR] cannot found call stack [{stck}] ...")
     LOG.debug(f"traced stid[{stid}] → cpkg[{cpkg}] → cpth[{cpth}]")
     
-    # file = file if file.endswith('.py') else file + '.py'
     path = absopath(joinpath(superdir(cpth), file)).replace('\\', '/') # .py to absolute path
     ppth = normpath(joinpath(cpkg.replace('.', '/'), file))            # ex) 'wdep/pack\\../util/web.py' to 'wdep\\util\\web.py'
     pack = ppth.replace('\\', '/').replace('../', '').replace('/', '.').replace('.py', '') # ex) wdep.pack.web
@@ -145,6 +145,10 @@ def imports(file: str, *args, use_lazy: bool = True) -> typing.Union[types.Modul
     LOG.debug(f"caller [{cpth.rpartition('/')[2]}] imports [{file}] → module [{pack}]{args}")
 
     bank_key = (path, args)
+    initpack = pack.rpartition('.')[0] # a.b.c → a.b, load package '__init__.py'
+    initpath = '' if initpack in sys.modules else joinpath(os.path.dirname(path), '__init__.py').replace('\\', '/')
+    if initpack and hasfile(initpath): LOG.debug(f"load package init → [{initpath}]"); sys.modules[initpack] = module(initpack, initpath, True) 
+
     if bank_key in module_bank: return module_bank[bank_key]
     if not pack in sys.modules: sys.modules[pack] = module(pack, path)
     module_bank[bank_key] = sys.modules[pack] if not args else attrib(sys.modules[pack], args)
