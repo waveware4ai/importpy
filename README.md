@@ -4,12 +4,12 @@ This small package is used to import at module level instead of package level.
 It can also replace the standard import mechanism. Additionally, it has the ability to solve the relative import problem that occurs 
 when executing unit modules located in each subdirectory without sys.path.
 
-features
-. importing modules using relative paths
-. importing modules using absolute paths
-. importing member functions from modules
-. support lazy-import avoid circular importing
-. support to import functions from module, like from x import y ...
+# features
+. importing modules using relative paths  
+. importing modules using absolute paths  
+. importing member functions from modules  
+. support lazy-import avoid circular importing  
+. support to import functions from module, like from x import y ...  
 
 # History
 ------------
