@@ -80,24 +80,24 @@ python -m pytest -v ./importpy/test
 ```python
 import importpy
 # simple relative import
-aaaa = importpy('aaaa.py') 
+aaaa = importpy('aaaa.py') # same to below
 aaaa = importpy('./aaaa.py')
 
 # wildcard import
-bbbb = importpy('../util/test/bbbb.py') 
+bbbb = importpy('../util/test/bbbb.py') # same to below
 bbbb = importpy('../util/test/bbbb.py', '*') 
 
 # absolute path
 cccc = importpy('/home/user/project/cccc.py')
 cccc = importpy('C:/program files/python/project/cccc.py') 
 
-# Turn on/off lazy-loading
+# turn on/off lazy-loading
 lazy_on = importpy('lazy_on.py', use_lazy = True) # default action
 lazyoff = importpy('lazyoff.py', use_lazy = False)
 
 # import specific attributes
 a_member_of_x, b_member_of_x = importpy('./pathto/x.py', 'a_member_of_x', 'b_member_of_x') 
-module, a_member_of_x, b_member_of_x = importpy('./pathto/x.py', '*', 'a_member_of_x', 'b_member_of_x')
+module_x, a_member_of_x, b_member_of_x = importpy('./pathto/x.py', '*', 'a_member_of_x', 'b_member_of_x')  # wildcard include module x
 
 # class import
 ClassA, ClassB = importpy('./pathto/impl.py', 'ClassA', 'ClassB')
