@@ -60,8 +60,15 @@ python -m pip install importpy
 or
 python -m pip install git+https://github.com/waveware4ai/importpy
 ```
+# Requirements
+------------
+```python
+Python 3.8+
+No external dependencies
+```
 
 # Features
+------------
 ```
 * Basic Features
   + importing modules using relative paths  
@@ -76,7 +83,14 @@ python -m pip install git+https://github.com/waveware4ai/importpy
   + result is cached in-memory  
 ```
 
+# Testing
+------------
+```
+python -m pytest -v ./importpy/test
+```
+
 # Examples
+------------
 ```python
 import importpy
 aaaa = importpy('aaaa.py') 
