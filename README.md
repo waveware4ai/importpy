@@ -93,5 +93,5 @@ a_member_of_x, b_member_of_x = importpy('x.py', 'a_member_of_x', 'b_member_of_x'
 ```
 ```python
 from impl import ClassA, ClassB
-ClassA, ClassB = importpy('impl.py', 'ClassA', 'ClassB)
+ClassA, ClassB = importpy('impl.py', 'ClassA', 'ClassB')
 ```
