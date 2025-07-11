@@ -1,7 +1,7 @@
 # importpy
 
 This small python-utility is used to import at module level instead of package level. 
-It can also replace the standard import mechanism. (I'm not saying to replace everything, but to use it only when necessary)  
+It can also replace the standard import mechanism. (I'm not saying to replace everything, but to use it only when necessary :D)  
 Additionally, it has the ability to solve the relative import problem that occurs 
 when executing unit modules located in each subdirectory without sys.path.
   
