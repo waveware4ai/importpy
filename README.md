@@ -3,6 +3,25 @@
 This small package is used to import at module level instead of package level.
 It can also replace the standard import mechanism. Additionally, it has the ability to solve the relative import problem that occurs 
 when executing unit modules located in each subdirectory without sys.path.
+  
+```
+root package
+        |
+        |------- __init__.py
+        |
+        |------- packageA/
+        |           |
+        |           |----- __init__.py
+        |           |----- module1.py
+        |           |----- module2.py
+        |
+        |------- packageB/
+        |           |
+        |           |----- __init__.py
+        |           |----- module3.py
+        |           |----- module4.py
+```
+
 
 # History
 ------------
