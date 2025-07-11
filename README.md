@@ -15,11 +15,13 @@ python -m pip install importpy
 ```
 
 # Features
+```
 . importing modules using relative paths  
 . importing modules using absolute paths  
 . importing member functions from modules  
 . support lazy-import avoid circular importing  
 . support to import functions from module, like from x import y ...  
+```
 
 # Examples
 ```python
