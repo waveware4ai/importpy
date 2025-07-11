@@ -31,8 +31,8 @@ aaaa = importpy('./aaaa.py')
 bbbb = importpy('../util/test/bbbb.py') 
 bbbb = importpy('../util/test/bbbb.py', '*')
 cccc = importpy('c:/project/cccc.py') 
-lazy_on = importpy('lazy_on.py', use_lazy = False) # default action
-lazyoff = importpy('lazyoff.py', use_lazy = True) 
+lazy_on = importpy('lazy_on.py', use_lazy = True) # default action
+lazyoff = importpy('lazyoff.py', use_lazy = False) 
 a_member_of_x, b_member_of_x = importpy('./pathto/x.py', 'a_member_of_x', 'b_member_of_x') 
 x, a_member_of_x, b_member_of_x = importpy('./pathto/x.py', '*', 'a_member_of_x', 'b_member_of_x') 
 ClassA, ClassB = importpy('./pathto/impl.py', 'ClassA', 'ClassB)
