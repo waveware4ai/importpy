@@ -69,20 +69,17 @@ No external dependencies
 
 # Features
 ------------
-```
 * Basic Features
-  + importing modules using relative paths  
-  + importing modules using absolute paths  
-  + importing member functions from modules  
-  + support lazy-import avoid circular importing  
-  + support to import functions from module, like from x import y ...
+    + importing modules using relative paths  
+    + importing modules using absolute paths  
+    + importing member functions from modules  
+    + support lazy-import avoid circular importing  
+    + support to import functions from module, like from x import y ...
 * Import Logic  
-  + caller location is traced via inspect  
-  + relative path is resolved automatically  
-  + module name is derived from the file path (e.g. utils/web.py → utils.web)  
-  + result is cached in-memory  
-```
-
+    + caller location is traced via inspect  
+    + relative path is resolved automatically  
+    + module name is derived from the file path (e.g. utils/web.py → utils.web)  
+    + result is cached in-memory  
 # Testing
 ------------
 ```
