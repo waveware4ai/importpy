@@ -75,6 +75,20 @@ No external dependencies
 # Testing
 ```
 python -m pytest -v ./importpy/test
+
+importpy\test\test_importpy.py::test_import_module PASSED                                   [  7%]
+importpy\test\test_importpy.py::test_import_attr_single PASSED                              [ 15%]
+importpy\test\test_importpy.py::test_import_attr_multiple PASSED                            [ 23%]
+importpy\test\test_importpy.py::test_import_star_attribute PASSED                           [ 30%]
+importpy\test\test_importpy.py::test_import_star_includes_expected_attributes PASSED        [ 38%]
+importpy\test\test_importpy.py::test_import_attr_missing PASSED                             [ 46%]
+importpy\test\test_importpy.py::test_import_args_invalid PASSED                             [ 53%]
+importpy\test\test_importpy.py::test_import_absolute_path_loading PASSED                    [ 61%]
+importpy\test\test_importpy.py::test_import_invalid_file_path PASSED                        [ 69%]
+importpy\test\test_importpy.py::test_import_caching_behavior PASSED                         [ 76%]
+importpy\test\test_importpy.py::test_import_lazy_loader_flag PASSED                         [ 84%]
+importpy\test\test_importpy.py::test_import_occur_cyclic_importing PASSED                   [ 92%]
+importpy\test\test_importpy.py::test_import_avoid_cyclic_importing PASSED                   [100%]
 ```
 # Examples
 ```python
