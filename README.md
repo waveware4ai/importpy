@@ -6,26 +6,26 @@ when executing unit modules located in each subdirectory without sys.path.
   
 ```
 root package
-        |
-        |------- __init__.py
-        |
-        |------- packageA/
-        |           |
-        |           |----- __init__.py
-        |           |----- moduleA1.py
-        |           |----- moduleA2.py
-        |
-        |------- packageB/
-        |           |
-        |           |------- packageC/
-        |           |           |
-        |           |           |----- __init__.py
-        |           |           |----- moduleC1.py
-        |           |           |----- moduleC2.py
-        |           |
-        |           |----- __init__.py
-        |           |----- moduleB1.py
-        |           |----- moduleB2.py
+    |
+    |------- __init__.py
+    |
+    |------- packageA/
+    |           |
+    |           |----- __init__.py
+    |           |----- moduleA1.py
+    |           |----- moduleA2.py
+    |
+    |------- packageB/
+    |           |
+    |           |------- packageC/
+    |           |           |
+    |           |           |----- __init__.py
+    |           |           |----- moduleC1.py
+    |           |           |----- moduleC2.py
+    |           |
+    |           |----- __init__.py
+    |           |----- moduleB1.py
+    |           |----- moduleB2.py
 ```
 Now you can import regardless of path.  
 For example, you can import moduleB1 of packageB from moduleA1 of packageA as follows.  
