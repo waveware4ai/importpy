@@ -110,8 +110,8 @@ from os.path import abspath as absopath, normpath, join as joinpath, dirname as 
 def loader(file: str, *args, use_lazy: bool = True) -> typing.Union[types.ModuleType, typing.Any] : return imports(file, *args, use_lazy=use_lazy)
 sys.modules[__name__] = loader
 
-module_bank = {}
-def imports(file: str, *args, use_lazy: bool = True) -> typing.Union[types.ModuleType, typing.Any] : # @14mhz, lazy-style custrom importer
+module_bank = {} 
+def imports(file: str, *args, use_lazy: bool = True) -> typing.Union[types.ModuleType, typing.Tuple[typing.Any, ...]] : # @14mhz, lazy-style custrom importer
     def stacks(frame) -> list : # with stacks(inspect.currentframe())
         return [] if not frame else [frame] + stacks(frame.f_back)
     def module(pack: str, path: str, iseager: bool = False) -> types.ModuleType :
