@@ -197,7 +197,7 @@ To do this example, you no longer need pip installed locally. Move it somewhere 
 def import_pip_test(url: str, custom_finder=None, uselazy:bool = True, isolate=True):
     from importpy import loader as importpy
     pip = importpy(url, custom_finder=custom_finder, uselazy=uselazy, isolate=isolate)
-    import pip as PIP
+    import pip as PIP # must be the same instance.
     assert id(pip) == id(PIP) 
 
     print(f"---------- pip-{pip.__version__} from [{pip.__file__}].main(['freeze'])")
