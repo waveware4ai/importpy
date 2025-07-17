@@ -76,6 +76,11 @@ pip_package = importpy('https://github.com/pypa/pip/tree/main/src/pip')
 import pip # You can use it as a general import.
 pip.__version__
 ```
+import module/function with arguments
+```python
+a, b, c = importpy('file://example.com/remote_package', 'a', 'b', 'c') # member module a,b,c
+a, b, c = importpy('file://example.com/remote_module.py', 'a', 'b', 'c') # member function a,b,c
+```
 import using custom loader
 ```python
 remote_package = importpy('userdefined://abc/efg/package', CustomMetaFinder())
@@ -138,7 +143,7 @@ lazyoff = importpy('lazyoff.py', use_lazy = False)
 
 # import specific attributes
 a_member_of_x, b_member_of_x = importpy('./pathto/x.py', 'a_member_of_x', 'b_member_of_x') 
-module_x, a_member_of_x, b_member_of_x = importpy('./pathto/x.py', '*', 'a_member_of_x', 'b_member_of_x')  # wildcard include module x
+module_x, a_member_of_x, b_member_of_x = importpy('./pathto/x.py', '*', 'a_member_of_x', 'b_member_of_x')  # wildcard include module x self
 
 # class import
 ClassA, ClassB = importpy('./pathto/impl.py', 'ClassA', 'ClassB')
