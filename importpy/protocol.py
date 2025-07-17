@@ -48,13 +48,12 @@ class AbstractMetaFinder(importlib.abc.MetaPathFinder):
 
     def find_spec(self, name, path, target=None):
         if not self.pnme: return None
-        if name != self.pnme and not name.startswith(self.pnme + "."): return None
-        init_path = f"{name.replace('.', '/')}/__init__.py"
-        modl_path = f"{name.replace('.', '/')}.py"
+        init_path = f"{name}.__init__" 
+        modl_path = f"{name}"         
         for p in [init_path, modl_path]:
             if p in self.tree:
-                ispk = '__init__.py' in p
-                load = self.custom_loader(p, ispk)
+                ispk = '__init__' in p
+                load = self.custom_loader(p, ispk) # to DefaultLoader
                 load = importlib.util.LazyLoader(load) if self.lazy and not ispk else load # must be check
                 spec = importlib.util.spec_from_loader(name, load, is_package=ispk)
                 if ispk: spec.submodule_search_locations = [] 
@@ -83,7 +82,7 @@ def PRINT(txt: str) :
     sys.stdout.flush()
 
 class DefaultLoader(importlib.abc.Loader):
-    def __init__(self, type, code, pnme, path, ispk): 
+    def __init__(self, type, code, pnme, path, ispk): # <- self.lodr <- custom_loader 
         self.type = type # type ie, zip:// tgz:// url://
         self.code = code # func of source code
         self.pnme = pnme # pack name 
@@ -94,7 +93,7 @@ class DefaultLoader(importlib.abc.Loader):
         modl.__file__ = self.type + self.path
         modl.__path__ = None if not self.ispk else [self.type + self.path.rsplit("/" , 1)[0]]
         modl.__loader__ = self
-        code = self.code(self.path) #.data[self.path] #.read(self.path).decode()
+        code = self.code(self.path) 
         LOG.debug(f"🚀 exec [{modl.__file__}] ...")
         PRINT(f" {ROTATION()} exec [{modl.__file__}] ...")
         exec(compile(code, self.path, "exec"), modl.__dict__)
@@ -147,7 +146,8 @@ class RemoteMetaImporter(importlib.abc.MetaPathFinder, metaclass=Singleton):
         return modl
 
     def find_spec(self, name, path, target=None):
-        spec = next((find.find_spec(name, path, target=target) for pnme, find in self.bank.items() if name == pnme or name.startswith(pnme + ".")), None)
+        spec = next((f.find_spec(name, path, target=target) for f in self.bank.values() if name in f.tree), None)
+        LOG.debug(f"{L_RESET}[CHK] find_spec search outside : {name}")
         return spec
 
     def patch_package(self, find): # various package pactch for compatibility
@@ -156,6 +156,7 @@ class RemoteMetaImporter(importlib.abc.MetaPathFinder, metaclass=Singleton):
             resources._finder_registry[find.lodr] = lambda mod: CustomResourceFinder(mod)
             PRINT(f'')
         except: pass
+        pass
 
     def select(self, url, uselazy=True):
         url = url.lower()
@@ -212,7 +213,7 @@ if __name__ == "__main__":
     import_pip_test("ftp://user:pass@localhost/whl/pip-25.1.1.tar.gz", isolate=True)
     import_pip_test("ftp://user:pass@localhost/whl/pip", isolate=True)
 
-    import_pip_test("https://github.com/pypa/pip/tree/main/src/pip")
+    # import_pip_test("https://github.com/pypa/pip/tree/main/src/pip")
     import_pip_test("http://localhost:1080/whl/pip-25.1.1-py3-none-any.whl", isolate=True)
     import_pip_test("http://localhost:1080/whl/pip-25.1.1.tar.gz", isolate=True)
     import_pip_test("http://localhost:1080/whl/pip", isolate=True)

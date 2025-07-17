@@ -163,7 +163,7 @@ def _imports(file: str, *args, custom_finder=None, uselazy: bool = True, isolate
 
         from importpy.protocol import RemoteMetaImporter
         impo = RemoteMetaImporter.getInstance()
-        modl = impo.imports(file, isolate=isolate)
+        modl = impo.imports(file, uselazy=uselazy, isolate=isolate)
 
         module_bank[bank_key] = modl if not args else attrib(modl, args)
         return module_bank[bank_key]
