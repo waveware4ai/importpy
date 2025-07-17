@@ -78,7 +78,7 @@ pip.__version__
 ```
 import module/function with arguments
 ```python
-a, b, c = importpy('file://example.com/remote_package', 'a', 'b', 'c') # member module a,b,c
+a, b, c = importpy('file://example.com/remote_package', 'a', 'b', 'c') # member module/function a,b,c
 a, b, c = importpy('file://example.com/remote_module.py', 'a', 'b', 'c') # member function a,b,c
 ```
 import using custom loader
