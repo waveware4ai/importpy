@@ -1,7 +1,7 @@
 # importpy
 Dynamic, lazy-style module importer for Python. It lets you import individual .py files directly at the module level, while still replicating standard package semantics (including automatic \_\_init\_\_.py execution) and resolving relative-import issues in nested directories—no changes to sys.path required. Use it to override Python’s built-in import mechanism only when you need that extra flexibility.
 
-## Use relative path
+## Use Relative Path
 ```
 root package
     │
@@ -46,7 +46,7 @@ member1, member2, classC = importpy('../../packageA/moduleA2.py', 'member1', 'me
 I came up with this approach because I usually put unit tests in '\_\_main\_\_' of each module.  
 Additionally, modules imported in this way can be executed independently regardless of the package structure. That's it....  
 
-## Use URL path
+## Use URL Path
 import Remote Package
 ```python
 remote_package = importpy('file://example.com/remote_package')
@@ -152,6 +152,7 @@ importpy/tests/test_importpy.py::test_importpy_protocol_instance_isolation_test3
 ============================================= 30 passed in 9.15s ==============================================
 ```
 # Examples
+## Relative Path
 ```python
 from importpy import loader as importpy
 # simple relative import
@@ -189,4 +190,48 @@ a_member_of_x, b_member_of_x = importpy('x.py', 'a_member_of_x', 'b_member_of_x'
 ```python
 from impl import ClassA, ClassB, funcX
 ClassA, ClassB, funcX = importpy('impl.py', 'ClassA', 'ClassB', 'funcX')
+```
+## URL Path
+To do this example, you no longer need pip installed locally. Move it somewhere else or delete it.
+```python
+def import_pip_test(url: str, custom_finder=None, uselazy:bool = True, isolate=True):
+    from importpy import loader as importpy
+    pip = importpy(url, custom_finder=custom_finder, uselazy=uselazy, isolate=isolate)
+    import pip as PIP
+    assert id(pip) == id(PIP) 
+
+    print(f"---------- pip-{pip.__version__} from [{pip.__file__}].main(['freeze'])")
+    pip.main(["freeze"])
+    print(f"---------- pip-{pip.__version__} from [{pip.__file__}].main(['list'])")
+    pip.main(["list"])
+```
+pypi sdist/wheel remote access test
+```python
+    import_pip_test("https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl")
+    import_pip_test("https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz")
+```
+pypi sdist/wheel local access test using file://
+```python
+    import_pip_test("file://[TEST_DIR]/pip-25.1.1-py3-none-any.whl")
+    import_pip_test("file://[TEST_DIR]/pip-25.1.1.tar.gz")
+    import_pip_test("file://[TEST_DIR]/pip-25.1.1-py3-none-any/pip") # extract to dir
+```
+pypi sdist/wheel remote access using ftp://
+```python
+    import_pip_test("ftp://user:pass@localhost/whl/pip-25.1.1-py3-none-any.whl")
+    import_pip_test("ftp://user:pass@localhost/whl/pip-25.1.1.tar.gz")
+    import_pip_test("ftp://user:pass@localhost/whl/pip") # extract to dir
+```
+pypi sdist/wheel remote access using http/https://
+```python
+    import_pip_test("http://localhost:1080/whl/pip-25.1.1-py3-none-any.whl")
+    import_pip_test("http://localhost:1080/whl/pip-25.1.1.tar.gz")
+    import_pip_test("http://localhost:1080/whl/pip") # extract to dir
+    import_pip_test("https://localhost:10443/whl/pip-25.1.1-py3-none-any.whl")
+    import_pip_test("https://localhost:10443/whl/pip-25.1.1.tar.gz")
+    import_pip_test("https://localhost:10443/whl/pip") # extract to dir
+```
+github direct access using https://
+```python
+    import_pip_test("http://github.com/pypa/pip/tree/main/src/pip")
 ```
