@@ -47,7 +47,7 @@ I came up with this approach because I usually put unit tests in '\_\_main\_\_' 
 Additionally, modules imported in this way can be executed independently regardless of the package structure. That's it....  
 
 ## Use URL Path
-import Remote Package
+#### import Remote Package
 ```python
 remote_package = importpy('file://example.com/remote_package')
 remote_package = importpy('http://example.com/remote_package')
@@ -56,32 +56,32 @@ remote_package = importpy('ftp://user:pass@example.com/remote_package')
 import remote_package # You can use it as a general import.
 remote_package.__version__
 ```
-import Remote Module
+#### import Remote Module
 ```python
 remote_module = importpy('file://example.com/remote_module.py')
 remote_module = importpy('http://example.com/remote_module.py')
 remote_module = importpy('https://example.com/remote_module.py')
 remote_module = importpy('ftp://user:pass@example.com/remote_module.py')
 ```
-import Remote wheel/sdist
+#### import Remote wheel/sdist
 ```python
 pip_package = importpy('https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl')
 pip_package = importpy('https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz')
 import pip # You can use it as a general import.
 pip.__version__
 ```
-import github direct
+#### import github direct
 ```python
 pip_package = importpy('https://github.com/pypa/pip/tree/main/src/pip')
 import pip # You can use it as a general import.
 pip.__version__
 ```
-import module/function with arguments
+#### import module/function with arguments
 ```python
 a, b, c = importpy('file://example.com/remote_package', 'a', 'b', 'c') # member module/function a,b,c
 a, b, c = importpy('file://example.com/remote_module.py', 'a', 'b', 'c') # member function a,b,c
 ```
-import using custom loader
+#### import using custom loader
 ```python
 remote_package = importpy('userdefined://abc/efg/package', CustomMetaFinder())
 CustomMetaFinder(AbstractMetaFinder) # See protocol.py for the format of AbstractMetaFinder.
