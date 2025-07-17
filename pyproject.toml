@@ -12,7 +12,7 @@ build-backend = "setuptools.build_meta"
 name = "importpy"
 version = "0.1.2"
 description = """
-Dynamic, lazy-style module importer for Python. 
+Dynamic, lazy-style support module/package importer for Python. This small package is used to import at module/package level.
 Import individual .py files at module level, replicate standard package import semantics
 (including automatic __init__.py execution), and resolve relative-import issues
 in nested directories without touching sys.path.
