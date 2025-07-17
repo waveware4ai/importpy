@@ -10,7 +10,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "importpy"
-version = "0.1.1"
+version = "0.1.2"
 description = """
 Dynamic, lazy-style module importer for Python. 
 Import individual .py files at module level, replicate standard package import semantics
