@@ -114,43 +114,6 @@ No external dependencies
     + relative path is resolved automatically  
     + module name is derived from the file path (e.g. utils/web.py → utils.web)  
     + result is cached in-memory  
-# Testing
-```
-python -m pytest -v ./importpy/tests
-collected 30 items
-importpy/tests/test_importpy.py::test_importpy_basic_module PASSED                                       [  3%]
-importpy/tests/test_importpy.py::test_importpy_basic_attr_single PASSED                                  [  6%]
-importpy/tests/test_importpy.py::test_importpy_basic_attr_multiple PASSED                                [ 10%]
-importpy/tests/test_importpy.py::test_importpy_basic_star_attribute PASSED                               [ 13%]
-importpy/tests/test_importpy.py::test_importpy_basic_star_includes_expected_attributes PASSED            [ 16%]
-importpy/tests/test_importpy.py::test_importpy_basic_attr_missing PASSED                                 [ 20%]
-importpy/tests/test_importpy.py::test_importpy_basic_args_invalid PASSED                                 [ 23%]
-importpy/tests/test_importpy.py::test_importpy_basic_absolute_path_loading PASSED                        [ 26%]
-importpy/tests/test_importpy.py::test_importpy_basic_invalid_file_path PASSED                            [ 30%]
-importpy/tests/test_importpy.py::test_importpy_basic_caching_behavior PASSED                             [ 33%]
-importpy/tests/test_importpy.py::test_importpy_basic_lazy_loader_flag PASSED                             [ 36%]
-importpy/tests/test_importpy.py::test_importpy_basic_occur_cyclic_importing PASSED                       [ 40%]
-importpy/tests/test_importpy.py::test_importpy_basic_avoid_cyclic_importing PASSED                       [ 43%]
-importpy/tests/test_importpy.py::test_importpy_protocol_remote_file_import_as_module PASSED              [ 46%]
-importpy/tests/test_importpy.py::test_importpy_protocol_remote_file_import_as_package PASSED             [ 50%]
-importpy/tests/test_importpy.py::test_importpy_protocol_validation_header PASSED                         [ 53%]
-importpy/tests/test_importpy.py::test_importpy_protocol_validation_file_path PASSED                      [ 56%]
-importpy/tests/test_importpy.py::test_importpy_protocol_validation_http_path PASSED                      [ 60%]
-importpy/tests/test_importpy.py::test_importpy_protocol_remote_wheel PASSED                              [ 63%]
-importpy/tests/test_importpy.py::test_importpy_protocol_remote_targz PASSED                              [ 66%]
-importpy/tests/test_importpy.py::test_importpy_protocol_remote_http PASSED                               [ 70%]
-importpy/tests/test_importpy.py::test_importpy_protocol_remote_github PASSED                             [ 73%]
-importpy/tests/test_importpy.py::test_importpy_protocol_remote_ftp PASSED                                [ 76%]
-importpy/tests/test_importpy.py::test_importpy_protocol_remote_sftp PASSED                               [ 80%]
-importpy/tests/test_importpy.py::test_importpy_protocol_remote_custom_loader PASSED                      [ 83%]
-importpy/tests/test_importpy.py::test_importpy_protocol_local_wheel PASSED                               [ 86%]
-importpy/tests/test_importpy.py::test_importpy_protocol_local_file PASSED                                [ 90%]
-importpy/tests/test_importpy.py::test_importpy_protocol_instance_isolation_test1 PASSED                  [ 93%]
-importpy/tests/test_importpy.py::test_importpy_protocol_instance_isolation_test2 PASSED                  [ 96%]
-importpy/tests/test_importpy.py::test_importpy_protocol_instance_isolation_test3 PASSED                  [100%]
-
-============================================= 30 passed in 9.15s ==============================================
-```
 # Examples
 ## Relative Path
 ```python
@@ -234,4 +197,41 @@ pypi sdist/wheel remote access using http/https://
 github direct access using https://
 ```python
     import_pip_test("http://github.com/pypa/pip/tree/main/src/pip")
+```
+# Testing
+```
+python -m pytest -v ./importpy/tests
+collected 30 items
+importpy/tests/test_importpy.py::test_importpy_basic_module PASSED                                       [  3%]
+importpy/tests/test_importpy.py::test_importpy_basic_attr_single PASSED                                  [  6%]
+importpy/tests/test_importpy.py::test_importpy_basic_attr_multiple PASSED                                [ 10%]
+importpy/tests/test_importpy.py::test_importpy_basic_star_attribute PASSED                               [ 13%]
+importpy/tests/test_importpy.py::test_importpy_basic_star_includes_expected_attributes PASSED            [ 16%]
+importpy/tests/test_importpy.py::test_importpy_basic_attr_missing PASSED                                 [ 20%]
+importpy/tests/test_importpy.py::test_importpy_basic_args_invalid PASSED                                 [ 23%]
+importpy/tests/test_importpy.py::test_importpy_basic_absolute_path_loading PASSED                        [ 26%]
+importpy/tests/test_importpy.py::test_importpy_basic_invalid_file_path PASSED                            [ 30%]
+importpy/tests/test_importpy.py::test_importpy_basic_caching_behavior PASSED                             [ 33%]
+importpy/tests/test_importpy.py::test_importpy_basic_lazy_loader_flag PASSED                             [ 36%]
+importpy/tests/test_importpy.py::test_importpy_basic_occur_cyclic_importing PASSED                       [ 40%]
+importpy/tests/test_importpy.py::test_importpy_basic_avoid_cyclic_importing PASSED                       [ 43%]
+importpy/tests/test_importpy.py::test_importpy_protocol_remote_file_import_as_module PASSED              [ 46%]
+importpy/tests/test_importpy.py::test_importpy_protocol_remote_file_import_as_package PASSED             [ 50%]
+importpy/tests/test_importpy.py::test_importpy_protocol_validation_header PASSED                         [ 53%]
+importpy/tests/test_importpy.py::test_importpy_protocol_validation_file_path PASSED                      [ 56%]
+importpy/tests/test_importpy.py::test_importpy_protocol_validation_http_path PASSED                      [ 60%]
+importpy/tests/test_importpy.py::test_importpy_protocol_remote_wheel PASSED                              [ 63%]
+importpy/tests/test_importpy.py::test_importpy_protocol_remote_targz PASSED                              [ 66%]
+importpy/tests/test_importpy.py::test_importpy_protocol_remote_http PASSED                               [ 70%]
+importpy/tests/test_importpy.py::test_importpy_protocol_remote_github PASSED                             [ 73%]
+importpy/tests/test_importpy.py::test_importpy_protocol_remote_ftp PASSED                                [ 76%]
+importpy/tests/test_importpy.py::test_importpy_protocol_remote_sftp PASSED                               [ 80%]
+importpy/tests/test_importpy.py::test_importpy_protocol_remote_custom_loader PASSED                      [ 83%]
+importpy/tests/test_importpy.py::test_importpy_protocol_local_wheel PASSED                               [ 86%]
+importpy/tests/test_importpy.py::test_importpy_protocol_local_file PASSED                                [ 90%]
+importpy/tests/test_importpy.py::test_importpy_protocol_instance_isolation_test1 PASSED                  [ 93%]
+importpy/tests/test_importpy.py::test_importpy_protocol_instance_isolation_test2 PASSED                  [ 96%]
+importpy/tests/test_importpy.py::test_importpy_protocol_instance_isolation_test3 PASSED                  [100%]
+
+============================================= 30 passed in 9.15s ==============================================
 ```
