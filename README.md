@@ -106,6 +106,8 @@ No external dependencies
 * Basic Features
     + importing modules using relative paths  
     + importing modules using absolute paths  
+    + importing package using url paths  
+    + importing modules using url paths  
     + importing member functions from modules  
     + support lazy-import avoid circular importing  
     + support to import functions from module, like from x import y ...
