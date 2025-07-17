@@ -1,6 +1,7 @@
 # importpy
 Dynamic, lazy-style module importer for Python. It lets you import individual .py files directly at the module level, while still replicating standard package semantics (including automatic \_\_init\_\_.py execution) and resolving relative-import issues in nested directories—no changes to sys.path required. Use it to override Python’s built-in import mechanism only when you need that extra flexibility.
-  
+
+## Use relative path
 ```
 root package
     │
@@ -45,9 +46,50 @@ member1, member2, classC = importpy('../../packageA/moduleA2.py', 'member1', 'me
 I came up with this approach because I usually put unit tests in '\_\_main\_\_' of each module.  
 Additionally, modules imported in this way can be executed independently regardless of the package structure. That's it....  
 
+## Use URL path
+import Remote Package
+```python
+remote_package = importpy('file://example.com/remote_package')
+remote_package = importpy('http://example.com/remote_package')
+remote_package = importpy('https://example.com/remote_package')
+remote_package = importpy('ftp://user:pass@example.com/remote_package')
+import remote_package # You can use it as a general import.
+remote_package.__version__
+```
+import Remote Module
+```python
+remote_module = importpy('file://example.com/remote_module.py')
+remote_module = importpy('http://example.com/remote_module.py')
+remote_module = importpy('https://example.com/remote_module.py')
+remote_module = importpy('ftp://user:pass@example.com/remote_module.py')
+```
+import Remote wheel/sdist
+```python
+pip_package = importpy('https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl')
+pip_package = importpy('https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz')
+import pip # You can use it as a general import.
+pip.__version__
+```
+import github direct
+```python
+pip_package = importpy('https://github.com/pypa/pip/tree/main/src/pip')
+import pip # You can use it as a general import.
+pip.__version__
+```
+import using custom loader
+```python
+remote_package = importpy('userdefined://abc/efg/package', CustomMetaFinder())
+CustomMetaFinder(AbstractMetaFinder) # See protocol.py for the format of AbstractMetaFinder.
+  .
+  .
+  .
+
+```
+
 # History
 2025/07/11 v0.1.0 : initial released  
 2025/07/13 v0.1.1 : some minor bug fix, support pytest  
+2025/07/17 v0.1.2 : some minor bug fix, support remote url 
 
 # Installation (pip install)
 ```python
@@ -111,7 +153,7 @@ importpy/tests/test_importpy.py::test_importpy_protocol_instance_isolation_test3
 ```
 # Examples
 ```python
-import importpy
+from importpy import loader as importpy
 # simple relative import
 aaaa = importpy('aaaa.py') # same to below
 aaaa = importpy('./aaaa.py')
