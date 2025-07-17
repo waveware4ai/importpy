@@ -1,5 +1,5 @@
 # importpy
-Dynamic, lazy-style module importer for Python. It lets you import individual .py files directly at the module level, while still replicating standard package semantics (including automatic \_\_init\_\_.py execution) and resolving relative-import issues in nested directories—no changes to sys.path required. Use it to override Python’s built-in import mechanism only when you need that extra flexibility.
+Dynamic, lazy-style support importer for Python. It lets you import individual .py files directly at the module level, while still replicating standard package semantics (including automatic \_\_init\_\_.py execution) and resolving relative-import issues in nested directories—no changes to sys.path required. Use it to override Python’s built-in import mechanism only when you need that extra flexibility.
 
 ## Use Relative Path
 ```
