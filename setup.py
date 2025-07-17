@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='importpy',
-    version='0.1.1',
+    version='0.1.2',
     author='14mhz',
     author_email='14mhz@hanmail.net',    
     description='This small package is used to import at module level instead of package level.',
