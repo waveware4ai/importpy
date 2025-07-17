@@ -27,19 +27,19 @@ root package
 ```
 Now you can import regardless of path.  
 For example, you can import moduleB1 of packageB from moduleA1 of packageA as follows.  
-####moduleA1.py of packageA  
+#### moduleA1.py of packageA  
 ```
 moduleB1 = importpy('../packageB/moduleB1.py')
 ```
 likewise, can import moduleA2 of packageA from moduleC2 of packageC as follows.  
 Of course, absolute paths are also possible.  
-####moduleC2.py of packageC  
+#### moduleC2.py of packageC  
 ```
 moduleA1 = importpy('../../packageA/moduleA2.py')
 or
 moduleA1 = importpy('c:/program files/python/project/test/package_root/packageA/moduleA2.py')
 ```
-####moduleC2.py of packageC  
+#### moduleC2.py of packageC  
 ```
 member1, member2, classC = importpy('../../packageA/moduleA2.py', 'member1', 'member2', 'classC')
 ```
