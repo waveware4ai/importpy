@@ -155,10 +155,10 @@ def strip_type(url: str) -> str :
     return url.rpartition('://')[2]
 def strip_dotpy(path: str) -> str :
     return path.partition('.py')[0]
-def nomalized_path(path: str) -> str : # nomalized path
+def normalized_path(path: str) -> str : # nomalized path
     return path.replace("\\", "/").rstrip('/')
-def nomalized_dots(path: str) -> str : # nomalized tree-key
-    return nomalized_path(strip_dotpy(path)).replace("/", ".")
+def normalized_dots(path: str) -> str : # nomalized tree-key
+    return normalized_path(strip_dotpy(path)).replace("/", ".")
 
 class FleMetaFinder(AbstractMetaFinder):
     def __init__(self, type:str = None, uselazy:bool = True, as_finder_role:bool = True):
@@ -169,12 +169,12 @@ class FleMetaFinder(AbstractMetaFinder):
 
     def imports(self, url, clean=None):
         if not hasfile(url): raise FileNotFoundError(f"[ERR] cannot find path [{url}] ...")
-        root = nomalized_path(strip_type(url)) # remove file://
+        root = normalized_path(strip_type(url)) # remove file://
         base = os.path.dirname(root) # if root is a dir, it works as a package, if file as a module 
         wdir = root if os.path.isdir(root) else os.path.dirname(root) # walk dir
         self.pnme = strip_dotpy(root.split("/")[-1]) 
-        self.data = [nomalized_path(os.path.join(p, py)) for p, _, f in os.walk(wdir) for py in f if py.endswith('.py')] + [nomalized_path(p) for p, _, _ in os.walk(wdir)]
-        self.tree = {nomalized_dots(os.path.relpath(f, base)):f for f in self.data} # 'pip.__init__' vs 'c:/[FILE_DIR]/pip/__init__.py'
+        self.data = [normalized_path(os.path.join(p, py)) for p, _, f in os.walk(wdir) for py in f if py.endswith('.py')] + [normalized_path(p) for p, _, _ in os.walk(wdir)]
+        self.tree = {normalized_dots(os.path.relpath(f, base)):f for f in self.data} # 'pip.__init__' vs 'c:/[FILE_DIR]/pip/__init__.py'
         if clean : clean(self.pnme) 
         return self.pnme if not self.as_finder_role else importlib.import_module(self.pnme)
 
@@ -200,7 +200,7 @@ class WebMetaFinder(AbstractMetaFinder) :
         base = os.path.dirname(root) # if root is a dir, it works as a package, if file, as a module 
         self.pnme = strip_dotpy(root.split("/")[-1])
         self.data = self.inst(root, extension='.py')
-        self.tree = {nomalized_dots(os.path.relpath(f, base)):f for f in self.data} # 'pip.__init__' vs 'http://localhost:1080/[ROOT_DIR]/pip/__init__.py'
+        self.tree = {normalized_dots(os.path.relpath(f, base)):f for f in self.data} # 'pip.__init__' vs 'http://localhost:1080/[ROOT_DIR]/pip/__init__.py'
         if clean: clean(self.pnme)
         return self.pnme if not self.as_finder_role else importlib.import_module(self.pnme)
 
@@ -232,7 +232,7 @@ class FtpMetaFinder(AbstractMetaFinder):
         self._ftp = ftp_connect(_host, _port, _user, _pass)
         self.data = self.inst(self._ftp, root, extension='.py')  
         self.pnme = strip_dotpy(root.split("/")[-1]) 
-        self.tree = {nomalized_dots(os.path.relpath(f, base)):f for f in self.data} # 'pip.__init__' vs '[ROOT_DIR]/pip/__init__.py'
+        self.tree = {normalized_dots(os.path.relpath(f, base)):f for f in self.data} # 'pip.__init__' vs '[ROOT_DIR]/pip/__init__.py'
         if clean: clean(self.pnme)
         return self.pnme if not self.as_finder_role else importlib.import_module(self.pnme)
 
@@ -263,7 +263,7 @@ class ZipMetaFinder(AbstractMetaFinder):
         self.inst = zipfile.ZipFile(fetch2mem(url))
         name_list = self.inst.namelist() 
         self.data = [p for p in name_list if p.endswith(".py")] + list({os.path.dirname(p) for p in name_list})
-        self.tree = {nomalized_dots(p):p for p in self.data} 
+        self.tree = {normalized_dots(p):p for p in self.data} 
         self.pnme = sorted(set(p.split("/")[0] for p in self.tree))[0]  # package name
         if clean : clean(self.pnme)
         return self.pnme if not self.as_finder_role else importlib.import_module(self.pnme)
@@ -291,7 +291,7 @@ class TgzMetaFinder(AbstractMetaFinder) :
         self.save = {sep[1]:self.inst.extractfile(m).read().decode("utf-8")  # package tree, must always start with the package name
                      for m in self.inst.getmembers() if m.isfile() and m.name.endswith(".py") and len((sep := m.name.split("src/"))) == 2}
         self.data = [p for p in self.save if p.endswith(".py")] + list({os.path.dirname(p) for p in self.save})
-        self.tree = {nomalized_dots(p):(self.save.get(p, '')) for p in self.data} 
+        self.tree = {normalized_dots(p):(self.save.get(p, '')) for p in self.data} 
         self.pnme = sorted(set(path.split("/")[0] for path in self.tree))[0] # package name
         if clean : clean(self.pnme)
         return self.pnme if not self.as_finder_role else importlib.import_module(self.pnme)
@@ -319,7 +319,7 @@ class GitMetaFinder(AbstractMetaFinder):
         self.save = {path.replace('src/', ''):f"{base}/{path}" # package tree, must always start with the package name
                      for item in self.json.get('tree', []) if (path := item.get('path', '')).startswith(root + '/') and path.endswith('.py')}
         self.data = [p for p in self.save if p.endswith(".py")] + list({os.path.dirname(p) for p in self.save})
-        self.tree = {nomalized_dots(p):(self.save.get(p, '')) for p in self.data} 
+        self.tree = {normalized_dots(p):(self.save.get(p, '')) for p in self.data} 
         self.pnme = root.split("/")[-1]                        # package name
         if clean : clean(self.pnme)
         return self.pnme if not self.as_finder_role else importlib.import_module(self.pnme)

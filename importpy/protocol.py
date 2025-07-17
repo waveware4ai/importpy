@@ -1,6 +1,5 @@
 import os, io, sys, abc
 import importlib.abc, importlib.util
-from typing import Self
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -128,7 +127,7 @@ class RemoteMetaImporter(importlib.abc.MetaPathFinder, metaclass=Singleton):
         self.bank = {}
 
     @classmethod
-    def getInstance(cls) -> Self :
+    def getInstance(cls) :
         return RemoteMetaImporter()
 
     def clean(self, prefix): # purge from already registered

@@ -478,10 +478,10 @@ class CustomZipMetaFinder(AbstractMetaFinder):
         return url.rpartition('://')[2]
     def strip_dotpy(self, path: str) -> str :
         return path.partition('.py')[0]
-    def nomalized_path(self, path: str) -> str : # nomalized path
+    def normalized_path(self, path: str) -> str : # nomalized path
         return path.replace("\\", "/").rstrip('/')
-    def nomalized_dots(self, path: str) -> str : # nomalized tree-key
-        return self.nomalized_path(self.strip_dotpy(path)).replace("/", ".")
+    def normalized_dots(self, path: str) -> str : # nomalized tree-key
+        return self.normalized_path(self.strip_dotpy(path)).replace("/", ".")
 
     def imports(self, url, clean = None):
         if not self.hasfile(url): raise FileNotFoundError(f"[ERR] cannot find path [{url}] ...")
@@ -489,7 +489,7 @@ class CustomZipMetaFinder(AbstractMetaFinder):
         self.inst = zipfile.ZipFile(fetch2mem(url))
         name_list = self.inst.namelist() 
         self.data = [p for p in name_list if p.endswith(".py")] + list({os.path.dirname(p) for p in name_list})
-        self.tree = {self.nomalized_dots(p):p for p in self.data} 
+        self.tree = {self.normalized_dots(p):p for p in self.data} 
         self.pnme = sorted(set(p.split("/")[0] for p in self.tree))[0]  # package name
         if clean : clean(self.pnme)
         return self.pnme 

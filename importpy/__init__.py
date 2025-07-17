@@ -167,7 +167,5 @@ def _imports(file: str, *args, custom_finder=None, uselazy: bool = True, isolate
 
         module_bank[bank_key] = modl if not args else attrib(modl, args)
         return module_bank[bank_key]
-        pass
-
-
+    pass
 pass
