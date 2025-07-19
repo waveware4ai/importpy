@@ -63,16 +63,23 @@ remote_module = importpy('http://example.com/remote_module.py')
 remote_module = importpy('https://example.com/remote_module.py')
 remote_module = importpy('ftp://user:pass@example.com/remote_module.py')
 ```
+#### import Local wheel/sdist
+```python
+importpy("file://[TEST_DIR]/pip-25.1.1-py3-none-any.whl")
+importpy("file://[TEST_DIR]/pip-25.1.1.tar.gz")
+import pip # You can use it as a general import.
+pip.__version__
+```
 #### import Remote wheel/sdist
 ```python
-pip_package = importpy('https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl')
-pip_package = importpy('https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz')
+importpy('https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl')
+importpy('https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz')
 import pip # You can use it as a general import.
 pip.__version__
 ```
 #### import github direct
 ```python
-pip_package = importpy('https://github.com/pypa/pip/tree/main/src/pip')
+importpy('https://github.com/pypa/pip/tree/main/src/pip')
 import pip # You can use it as a general import.
 pip.__version__
 ```
